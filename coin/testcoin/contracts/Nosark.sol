@@ -15,10 +15,11 @@ contract Nosark is ERC20 {
         _;
     }
 
-    function initialsupply(uint _supply1) public onlyowner {
+    function initialsupply(uint _supply1) public onlyowner returns(uint256) {
         require(_supply <= 100_000_000 ether, "LIMIT EXCEEDED");
         _mint(msg.sender, _supply1);
         _supply = _supply1 + 50_000_000 ether;
+       // return _supply;
     }
     function _totalsupply() public view returns(uint256)
     {
