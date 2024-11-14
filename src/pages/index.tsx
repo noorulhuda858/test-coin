@@ -23,7 +23,7 @@ const Home: NextPage = () => {
 
   const handleMintTokens = async () => {
     console.log('Mint Tokens button clicked');
-    console.log(signer);
+    // console.log(signer);
     if (amountToMint > 0 && signer) {
       const actualSigner = await signer.getSignerAsync();
       calling(amountToMint, actualSigner);
@@ -94,9 +94,7 @@ const Home: NextPage = () => {
       </main>
 
       <footer className={styles.footer} style={{ backgroundColor: '#0070f3', color: 'white', padding: '10px', textAlign: 'center' }}>
-        <a href="https://rainbow.me" rel="noopener noreferrer" target="_blank" style={{ color: 'white', textDecoration: 'none' }}>
-          Made with ❤️ by your frens at 🌈
-        </a>
+       
       </footer>
     </div>
   );

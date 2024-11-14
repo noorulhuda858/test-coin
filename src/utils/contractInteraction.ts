@@ -15,6 +15,9 @@ export const convertToWei = (amountInEther: string | number): bigint => {
   return weiValue;
 };
 
+// Number 10000000000000 Overflow
+
+// BIgint 10000000000000000000000 => {hex: 'a12ha'}
 export async function calling(amountInEther: number, signer: JsonRpcSigner) {
   try {
     const amountInWei = convertToWei(amountInEther);
@@ -22,7 +25,8 @@ export async function calling(amountInEther: number, signer: JsonRpcSigner) {
     console.log("before calling");
 
     const contract = await initializeContract(signer);
-    console.log("After initialize", amountInWei.toString());
+    console.log("amountInWei in string", amountInWei.toString());
+    console.log("amountInWei in real", amountInWei);
 
     // Assuming `initialsupply` is the mint function
     const transactionResponse = await contract.initialsupply(amountInWei); // Pass the wei value
