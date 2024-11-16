@@ -1,5 +1,13 @@
 .container {
-  padding: 0 2rem;
+  background-color: #000000;
+  color: #ffffff;
+  background-image: url('https://images.unsplash.com/photo-1518837695005-4b9438d1b3b2');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
 }
 
 .main {
@@ -19,6 +27,8 @@
   border-top: 1px solid #eaeaea;
   justify-content: center;
   align-items: center;
+  background-color: rgba(255, 0, 0, 0.8);
+  color: white;
 }
 
 .footer a {
@@ -29,7 +39,7 @@
 }
 
 .title a {
-  color: #0d76fc;
+  color: #ff0000;
   text-decoration: none;
 }
 
@@ -54,6 +64,7 @@
   margin: 0 0 2rem;
   line-height: 1.5;
   font-size: 1.5rem;
+  color: #ffffff;
 }
 
 .grid {
