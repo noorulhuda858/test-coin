@@ -1,11 +1,11 @@
 import { ethers, JsonRpcSigner } from "ethers";
 import { JsonRpcAccount } from "viem";
-import abi from "./abi.json";
+import abi from "./abi.json" 
 
-const contractAddress = "0x6eaea0a5c1c0bc83b1b648d95f19c5907daea912";
+const contractAddress = "0x4781b344c1441dbFBAba2b2E85ba4eb7901D5fE7";
 
 async function initializeContract(signer: JsonRpcSigner) {
-  const contract = new ethers.Contract(contractAddress, abi, signer);
+  const contract = new ethers.Contract(contractAddress, abi.abi, signer);
   return contract;
 }
 
@@ -18,7 +18,10 @@ export const convertToWei = (amountInEther: string | number): bigint => {
 // Number 10000000000000 Overflow
 
 // BIgint 10000000000000000000000 => {hex: 'a12ha'}
-export async function calling(amountInEther: number, signer: JsonRpcSigner) {
+export async function callingmint(
+  amountInEther: number,
+  signer: JsonRpcSigner
+) {
   try {
     const amountInWei = convertToWei(amountInEther);
     console.log(`Amount in Wei: ${amountInWei}`);
@@ -28,13 +31,12 @@ export async function calling(amountInEther: number, signer: JsonRpcSigner) {
     console.log("amountInWei in string", amountInWei.toString());
     console.log("amountInWei in real", amountInWei);
 
-    // Assuming `initialsupply` is the mint function
-    const transactionResponse = await contract.initialsupply(amountInWei); // Pass the wei value
-    console.log("Transaction sent, waiting for confirmation...");
+    const mintResponse = await contract.mint(amountInWei); // Pass the wei value
+    console.log("Mint in process, waiting for confirmation...");
 
-    // Wait for the transaction to be mined
-    const receipt = await transactionResponse.wait();
-    console.log("Transaction confirmed:", receipt);
+    // Wait to be mined
+    const receipt = await mintResponse.wait();
+    console.log("Mint confirmed:", receipt);
 
     //Check for mint event in the receipt logs
     const mintEvent = receipt.events?.find(
@@ -48,6 +50,30 @@ export async function calling(amountInEther: number, signer: JsonRpcSigner) {
 
     console.log("after calling");
   } catch (error) {
-    console.error("Error calling initialsupply:", error);
+    console.error("Error calling Mint:", error);
+  }
+}
+export async function callingPayPenalty(
+  amountInEther: number,
+  signer: JsonRpcSigner
+) {
+  if (signer) {
+    try {
+      const contract = await initializeContract(signer); // Function to initialize contract
+      const penaltyFee = ethers.parseEther("0.001"); // Penalty fee in Ether
+      const transaction = await contract.payPenalty({
+        value: penaltyFee, // Sending Ether
+        gasLimit: 500000, // Optional gas limit
+      });
+
+      console.log("Pay penalty transaction sent:", transaction.hash);
+      await transaction.wait();
+      alert("Penalty paid successfully! Your minting limit has increased.");
+    } catch (error) {
+      console.error("Penalty payment failed:", error);
+      alert("Failed to pay the penalty. Please try again.");
+    }
+  } else {
+    alert("Please connect your wallet first.");
   }
 }

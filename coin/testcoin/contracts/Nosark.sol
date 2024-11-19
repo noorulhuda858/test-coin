@@ -12,12 +12,14 @@ contract Nosark is ERC20 {
     event Mint(address indexed minter, uint256 amount);
     event MintLimitReached(address indexed minter);
 
-    mapping(address => uint256) private balances;
-    mapping(address => uint256) private penaltybalances;
+    mapping(address => uint256) public balances;
+    mapping(address => uint256) public penaltybalances;
 
-    constructor() ERC20("NOSARK", "NK") {
+    constructor() ERC20("NOSARK", "NK") 
+    {
         owner = msg.sender;
     }
+    
     modifier onlyOwner() {
         require(msg.sender == owner, "Only Owner can Call");
         _;
@@ -44,8 +46,6 @@ contract Nosark is ERC20 {
         penaltybalances[msg.sender] += 1000 ether;
         MAX_SUPPLY += 1000 ether;
     }
-
-    //function setMaxSUpply
     function SetMaxSupply(uint newsupply) public onlyOwner {
         MAX_SUPPLY = newsupply;
     }
